@@ -1780,9 +1780,13 @@ public class AbstractParser implements Parser, Serializable {
    * @return boolean value
    */
   protected boolean ifThenElseBlockContinues() {
+    /* 
+      In skipWhitespace(), cursor will be add, so should be put at the begin of this method, or sometimes will occur exception: ArrayIndexOutOfBoundsException.
+    */
+    skipWhitespace();
     if ((cursor + 4) < end) {
       if (expr[cursor] != ';') cursor--;
-      skipWhitespace();
+      //skipWhitespace();
 
       return expr[cursor] == 'e' && expr[cursor + 1] == 'l' && expr[cursor + 2] == 's' && expr[cursor + 3] == 'e'
           && (isWhitespace(expr[cursor + 4]) || expr[cursor + 4] == '{');
